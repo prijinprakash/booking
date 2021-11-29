@@ -1,0 +1,17 @@
+from django import forms
+
+from .models import BookingInfo, Listing
+
+
+class CustomListingChoiceField(forms.ModelChoiceField):
+
+    def label_from_instance(self, listing_obj):
+     	return f'{listing_obj.title} ({listing_obj.get_choices()[listing_obj.listing_type]})'
+
+
+class CustomBookingInfoForm(forms.ModelForm):
+	listing = CustomListingChoiceField(queryset=Listing.objects.all())
+
+	class Meta:
+		model = BookingInfo
+		fields = "__all__"
