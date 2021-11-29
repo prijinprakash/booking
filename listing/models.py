@@ -15,9 +15,9 @@ class Listing(models.Model):
         choices=LISTING_TYPE_CHOICES,
         default=APARTMENT
     )
-    title = models.CharField(max_length=255,)
-    country = models.CharField(max_length=255,)
-    city = models.CharField(max_length=255,)
+    title = models.CharField(max_length=255, )
+    country = models.CharField(max_length=255, )
+    city = models.CharField(max_length=255, )
 
     def __str__(self):
         return self.title
@@ -31,8 +31,8 @@ class BookingInfo(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
 
-    def clean(self, *args, **kwargs):
-        super().clean(*args, **kwargs)
+    def clean(self):
+        super().clean()
         listing_type = self.listing.listing_type
         if listing_type == Listing.APARTMENT:
             queryset = BookingInfo.objects.filter(listing=self.listing)
@@ -62,8 +62,8 @@ class Reservation(models.Model):
     check_out_date = models.DateField()
     booking_info = models.ForeignKey(BookingInfo, on_delete=models.CASCADE, related_name="reservations")
 
-    def clean(self, *args, **kwargs):
-        super().clean(*args, **kwargs)
+    def clean(self):
+        super().clean()
         if self.check_out_date < self.check_in_date:
             raise ValidationError('Checkout date can not be a date before check in date!')
         query = Q(check_in_date__range=(self.check_in_date, self.check_out_date)) | \

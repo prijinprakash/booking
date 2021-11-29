@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from listing.models import BookingInfo, Listing
+from listing.models import BookingInfo
 
 
 class BookingInfoSerializer(serializers.ModelSerializer):

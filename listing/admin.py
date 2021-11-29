@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.core.exceptions import ValidationError
 
 from .models import *
 from .forms import CustomBookingInfoForm
@@ -7,18 +6,13 @@ from .forms import CustomBookingInfoForm
 
 class HotelRoomInline(admin.StackedInline):
     model = HotelRoom
-    extra = 0   
+    extra = 0
 
 
 @admin.register(Listing)
 class ListingAdmin(admin.ModelAdmin):
     list_filter = ('listing_type',)
-    list_display = (
-        'title',
-        'listing_type',
-        'country',
-        'city'
-    )
+    list_display = ('title', 'listing_type', 'country', 'city')
     search_fields = ['title', 'listing_type', 'country', 'city']
 
 
